@@ -5,6 +5,9 @@ I developed a Rest API for a simplified payment platform. This Rest API was buil
 
 I used some libraries for this Rest API such **Spring Web, Spring Data JPA, Validation, and H2 Database**.
 
+This project was inspired by the assessment test available at the following link:
+https://github.com/PicPay/picpay-desafio-backend
+
 ## Requirements
 
 Below are some business rules that were important for the functioning:
@@ -41,9 +44,6 @@ Content-Type: application/json
   "payee": 15
 }
 ```
-
-This project was inspired by the assessment test available at the following link:
-https://github.com/PicPay/picpay-desafio-backend
 
 ## Database Config
 For test this API, an external Database is not necessary because an embedded Database (H2 Database) was used with the following configuration properties:
