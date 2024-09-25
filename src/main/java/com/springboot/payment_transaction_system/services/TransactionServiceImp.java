@@ -1,5 +1,6 @@
 package com.springboot.payment_transaction_system.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.springboot.payment_transaction_system.dtos.TransactionRequestDto;
 import com.springboot.payment_transaction_system.dtos.TransactionResponseDto;
 import com.springboot.payment_transaction_system.enums.UserType;
@@ -96,7 +97,25 @@ public class TransactionServiceImp implements TransactionService{
 
     private boolean isAuthorizedTransaction(){
         try{
-            ResponseEntity<Map> authorizeTransactionResponse= restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize",Map.class);
+            ResponseEntity<JsonNode> authorizeTransactionResponse= restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize",JsonNode.class);
+
+            // Check if the response status is 200 OK
+            if((authorizeTransactionResponse.getStatusCode() != HttpStatus.OK))
+                return false;
+
+            JsonNode rootNode= authorizeTransactionResponse.getBody();
+
+            String statusResponse= Objects.requireNonNull(rootNode).get("status").asText();
+            if(!statusResponse.equalsIgnoreCase("success"))
+                return false;
+
+            JsonNode dataResponse= rootNode.get("data");
+            Boolean authorized= dataResponse.get("authorization").asBoolean();
+            return authorized;
+
+            //by using Map
+            /*
+             ResponseEntity<Map> authorizeTransactionResponse= restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize",Map.class);
 
             // Check if the response status is 200 OK
             if((authorizeTransactionResponse.getStatusCode() != HttpStatus.OK))
@@ -109,6 +128,7 @@ public class TransactionServiceImp implements TransactionService{
             Map<String,Object> dataResponse= (Map<String,Object>)authorizeTransactionResponse.getBody().get("data");
             Boolean authorized= (Boolean) dataResponse.getOrDefault("authorization",false);
             return authorized;
+             */
         }
         catch (HttpClientErrorException e) {
             //Handle specific HTTP error codes
