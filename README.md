@@ -12,7 +12,7 @@ https://github.com/PicPay/picpay-desafio-backend
 
 Below are some business rules that were important for the functioning:
 
-•	For both types of users, This API allows to store the Full Name, Document (Or CPF), Email, and Password. Document and Emails are unique in the system. Therefore, only one registration with the same Document or Email is allowed.
+•	For both types of users, This API allows storing the Full Name, Document (Or CPF), Email, and Password. Document and Emails are unique in the system. Therefore, only one registration with the same Document or Email is allowed.
 
 •	Users can send money (make transfers) to merchants and between users.
 
